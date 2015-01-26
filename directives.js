@@ -5,7 +5,6 @@
     var componentPath = (typeof window.componentPath === 'undefined') ? "" : window.componentPath;
 
     var directivesModule = angular.module(parentModule);
-
     directivesModule.directive('itemEditor', itemEditor);
 
     itemEditor.$inject = [];
