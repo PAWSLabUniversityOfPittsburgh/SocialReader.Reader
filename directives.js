@@ -8,8 +8,8 @@
     itemEditor.$inject = [];
 
     function itemEditor() {
-        var componentPath = (typeof componentPath === 'undefined') ? "" : componentPath;
-        
+        var componentPath = (typeof window.componentPath === 'undefined') ? "" : window.componentPath;
+
         var directive = {
             link: link,
             scope: {},
