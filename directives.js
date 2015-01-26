@@ -1,21 +1,23 @@
 (function () {
     'use strict';
     
-    var directivesModule = angular.module(window.parentModule);
+    var parentModule = (typeof window.parentModule === 'undefined') ? "" : window.parentModule;
+    var componentPath = (typeof window.componentPath === 'undefined') ? "" : window.componentPath;
+
+    var directivesModule = angular.module(parentModule);
 
     directivesModule.directive('itemEditor', itemEditor);
 
     itemEditor.$inject = [];
 
     function itemEditor() {
-        var componentPath = (typeof window.componentPath === 'undefined') ? "" : window.componentPath;
 
         var directive = {
             link: link,
             scope: {},
             controller: controller,
             controllerAs: 'vm',
-            require: ['^itemManager', 'itemEditor'],
+            require: ['^'+parentModule, 'itemEditor'],
             templateUrl: componentPath + 'SocialReader.Reader/template.html',
             restrict: 'A'
         };
@@ -23,10 +25,10 @@
         return directive;
 
         function link(scope, element, attrs, controllers) {
-            var itemManagerController = controllers[0];
+            var managerController = controllers[0];
             var itemEditorController = controllers[1];
             
-            itemEditorController.itemManager = itemManagerController;
+            itemEditorController.manager = managerController;
             
             itemEditorController.initialize();
         }
@@ -35,7 +37,7 @@
             var vm = this;
             
             // Properties
-            vm.itemManager = {};
+            vm.manager = {};
             vm.item = { id: -1, name: "", size: "" };
             
             // Methods
@@ -45,11 +47,11 @@
             
             // Functions
             function initialize() {
-                vm.itemManager.respondToEditsWith(vm.editItem);
+                vm.manager.respondToEditsWith(vm.editItem);
             }
             
             function updateItem() {
-                vm.itemManager.updateItem(vm.item);
+                vm.manager.updateItem(vm.item);
                 vm.item = {};
             }
             
