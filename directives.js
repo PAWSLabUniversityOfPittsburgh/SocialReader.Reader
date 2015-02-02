@@ -72,6 +72,30 @@
                             }
                         }
                     });
+                }
+
+                var content = $('body').annotator();
+                content.annotator('addPlugin', 'Store', {
+                    prefix: "http://columbus.exp.sis.pitt.edu/socialreader",
+                    urls:{create:"/CreateAnnotation",search:"/GetAnnotations"},
+                    annotationData: {
+                        'uri': 'http://this/document/only',
+                        "usr": + usr,
+                        "grp": + grp,
+                        "fileurl": + url,
+                        "page": + page,
+                        "readingid":readingid
+                    },
+                    loadFromSearch: {
+                        'limit': 20,
+                        'uri': 'http://this/document/only',
+                        "usr": + usr,
+                        "grp": + grp,
+                        "fileurl": + url,
+                        "page": + page,
+                        "readingid":readingid
+                    }
+                }); 
             }
             
             function updateItem() {
