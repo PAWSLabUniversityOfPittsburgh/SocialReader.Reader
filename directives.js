@@ -47,6 +47,31 @@
             // Functions
             function initialize() {
                 vm.manager.respondToEditsWith(vm.editItem);
+                var base_url = 'http://columbus.exp.sis.pitt.edu/socialreader/';
+                var usr = 10, grp = 6, sid = 1;
+                var url = null, page = 0;
+                var readingid = 'lewis-0077', nextreadingid = 'lewis-0076', lastreadingid = 'lewis-0078';
+                loadIframe(readingid);
+                function loadIframe(readingid) {
+                    $.ajax({
+                        url: base_url + 'GetReadingInfo',
+                        type: 'post',
+                        dataType: 'jsonp',
+                        data: { readingid: readingid },
+                        success: function (json) {
+                            if (!json.error) {
+                                url = json.urls[0];
+                                lastreadingid = json.prev;
+                                nextreadingid = json.next;
+                                url = "6-3.html"
+                                $("#dvContent").load(url);
+     
+
+                            } else {
+                                console.log("ERROR: " + json.error);
+                            }
+                        }
+                    });
             }
             
             function updateItem() {
