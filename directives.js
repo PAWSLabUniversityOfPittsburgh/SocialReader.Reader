@@ -7,7 +7,7 @@
     var directivesModule = angular.module(parentModule);
     directivesModule.directive('reader', reader);
 
-    reader.$inject = [$scope];
+    reader.$inject = [];
 
     function reader() {
 
@@ -29,12 +29,10 @@
             
             readerController.manager = managerController;
             
-            readerController.initialize();
+            readerController.initialize(scope);
         }
         
         function controller() {
-            $scope.prepend = componentPath + "SocialReader.Reader/";
-
             var vm = this;
             
             // Properties
@@ -47,7 +45,10 @@
             vm.editItem = editItem;
             
             // Functions
-            function initialize() {
+            function initialize(scope) {
+
+                scope.prepend = componentPath + "SocialReader.Reader/";
+
                 vm.manager.respondToEditsWith(vm.editItem);
                 var base_url = 'http://columbus.exp.sis.pitt.edu/socialreader/';
                 var usr = 10, grp = 6, sid = 1;
