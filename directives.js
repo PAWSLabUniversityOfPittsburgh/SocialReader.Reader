@@ -7,7 +7,7 @@
     var directivesModule = angular.module(parentModule);
     directivesModule.directive('reader', reader);
 
-    reader.$inject = [];
+    reader.$inject = [$scope];
 
     function reader() {
 
@@ -34,7 +34,7 @@
         
         function controller() {
             $scope.prepend = componentPath + "SocialReader.Reader/";
-            
+
             var vm = this;
             
             // Properties
