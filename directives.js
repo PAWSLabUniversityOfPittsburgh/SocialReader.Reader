@@ -5,18 +5,18 @@
     var componentPath = (typeof window.componentPath === 'undefined') ? "" : window.componentPath;
 
     var directivesModule = angular.module(parentModule);
-    directivesModule.directive('itemEditor', itemEditor);
+    directivesModule.directive('reader', reader);
 
-    itemEditor.$inject = [];
+    reader.$inject = [];
 
-    function itemEditor() {
+    function reader() {
 
         var directive = {
             link: link,
             scope: {},
             controller: controller,
             controllerAs: 'vm',
-            require: ['^'+parentModule, 'itemEditor'],
+            require: ['^'+parentModule, 'reader'],
             templateUrl: componentPath + 'SocialReader.Reader/template.html',
             restrict: 'A'
         };
@@ -25,11 +25,11 @@
 
         function link(scope, element, attrs, controllers) {
             var managerController = controllers[0];
-            var itemEditorController = controllers[1];
+            var readerController = controllers[1];
             
-            itemEditorController.manager = managerController;
+            readerController.manager = managerController;
             
-            itemEditorController.initialize();
+            readerController.initialize();
         }
         
         function controller() {
