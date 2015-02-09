@@ -33,6 +33,8 @@
         }
         
         function controller() {
+            $scope.prepend = componentPath + "SocialReader.Reader/";
+            
             var vm = this;
             
             // Properties
