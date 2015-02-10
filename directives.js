@@ -5,11 +5,11 @@
     var componentPath = (typeof window.componentPath === 'undefined') ? "" : window.componentPath;
 
     var directivesModule = angular.module(parentModule);
-    directivesModule.directive('reader', reader);
 
     reader.$inject = [];
+    directivesModule.directive('reader', reader);
 
-    function reader() {
+    function reader(angularLoad) {
 
         var directive = {
             link: link,
@@ -47,7 +47,7 @@
             // Functions
             function initialize(scope) {
 
-                scope.prepend = componentPath + "SocialReader.Reader/";
+                scope.componentPath = componentPath;
 
                 vm.manager.respondToEditsWith(vm.editItem);
                 var base_url = 'http://columbus.exp.sis.pitt.edu/socialreader/';
