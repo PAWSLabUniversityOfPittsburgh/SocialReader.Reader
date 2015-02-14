@@ -66,7 +66,7 @@
                                 url = json.urls[0];
                                 lastreadingid = json.prev;
                                 nextreadingid = json.next;
-                                url = "6-3.html"
+                                url = "components/SocialReader.Reader/6-3.html"
                                 $("#dvContent").load(url);
      
 
