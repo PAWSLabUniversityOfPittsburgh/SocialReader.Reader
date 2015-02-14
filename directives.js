@@ -77,7 +77,7 @@
                     });
                 }
 
-                var content = $($(".col-md-4")[0]).annotator();
+                var content = $("body").annotator();
                 content.annotator('addPlugin', 'Store', {
                     prefix: "http://columbus.exp.sis.pitt.edu/socialreader",
                     urls:{create:"/CreateAnnotation",search:"/GetAnnotations"},
