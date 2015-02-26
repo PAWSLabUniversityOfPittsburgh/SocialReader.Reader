@@ -57,11 +57,11 @@
                 loadIframe(readingid,"components/SocialReader.Reader/6-3.html");
                 
                 $("#btnLast").onclick(function(){
-                    initialize(readingid,"components/SocialReader.Reader/6-2.html")
+                    loadIframe(readingid,"components/SocialReader.Reader/6-2.html")
                 });
 
                 $("#btnNext").onclick(function(){
-                    initialize(readingid,"components/SocialReader.Reader/6-4.html")
+                    loadIframe(readingid,"components/SocialReader.Reader/6-4.html")
                 });
 
                 function loadIframe(readingid,url) {
