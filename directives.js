@@ -54,16 +54,16 @@
                 var usr = 10, grp = 6, sid = 1;
                 var url = null, page = 0;
                 var readingid = 'lewis-0077', nextreadingid = 'lewis-0076', lastreadingid = 'lewis-0078';
-                loadIframe(readingid,"components/SocialReader.Reader/6-3.html");
+                loadIframe(readingid);
                 $("#btnLast").click(function(){
-                    loadIframe(readingid,"components/SocialReader.Reader/6-2.html")
+                    loadIframe(readingid)
                 });
 
                 $("#btnNext").click(function(){
-                    loadIframe(readingid,"components/SocialReader.Reader/6-4.html")
+                    loadIframe(readingid)
                 });
 
-                function loadIframe(readingid,url) {
+                function loadIframe(readingid) {
                     $.ajax({
                         url: base_url + 'GetReadingInfo',
                         type: 'post',
@@ -71,9 +71,9 @@
                         data: { readingid: readingid },
                         success: function (json) {
                             if (!json.error) {
-                                //url = json.urls[0];
-                                //lastreadingid = json.prev;
-                                //nextreadingid = json.next;
+                                url = json.urls[0];
+                                lastreadingid = json.prev;
+                                nextreadingid = json.next;
                                 $("#dvContent").load(url);
      
 
