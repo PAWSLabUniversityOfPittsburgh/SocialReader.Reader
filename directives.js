@@ -77,7 +77,7 @@
                     });
                 }
 
-                var content = $("#dvContent").annotator();
+                var content = $($(".ng-isolate-scope")[1]).annotator();
                 content.annotator('addPlugin', 'Store', {
                     prefix: "http://columbus.exp.sis.pitt.edu/socialreader",
                     urls:{create:"/CreateAnnotation",search:"/GetAnnotations"},
