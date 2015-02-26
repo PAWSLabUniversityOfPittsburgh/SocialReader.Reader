@@ -55,14 +55,7 @@
                 var url = null, page = 0;
                 var readingid = 'lewis-0077', nextreadingid = 'lewis-0076', lastreadingid = 'lewis-0078';
                 loadIframe(readingid,"components/SocialReader.Reader/6-3.html");
-                
-                $("#btnLast").onclick(function(){
-                    loadIframe(readingid,"components/SocialReader.Reader/6-2.html")
-                });
-
-                $("#btnNext").onclick(function(){
-                    loadIframe(readingid,"components/SocialReader.Reader/6-4.html")
-                });
+            
 
                 function loadIframe(readingid,url) {
                     $.ajax({
@@ -84,7 +77,13 @@
                         }
                     });
                 }
+                $("#btnLast").onclick(function(){
+                    loadIframe(readingid,"components/SocialReader.Reader/6-2.html")
+                });
 
+                $("#btnNext").onclick(function(){
+                    loadIframe(readingid,"components/SocialReader.Reader/6-4.html")
+                });
                 var content = $($(".ng-isolate-scope")[1]).annotator();
                 content.annotator('addPlugin', 'Store', {
                     prefix: "http://columbus.exp.sis.pitt.edu/socialreader",
