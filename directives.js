@@ -70,7 +70,7 @@
                                 nextreadingid = json.next;
                                 $.get(url, function( data ) {
                                   data = data.replace(/(href=)(".+")/g,"$1#");
-                                  ("#dvContent").html(data);
+                                  $("#dvContent").html(data);
                                 });
                                 $("#btnLast").click(function(){
                                     loadIframe(lastreadingid);
