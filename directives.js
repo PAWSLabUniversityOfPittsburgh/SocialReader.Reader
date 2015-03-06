@@ -68,7 +68,10 @@
                                 url = json.urls[0];
                                 lastreadingid = json.prev;
                                 nextreadingid = json.next;
-                                $("#dvContent").load(url);
+                                $.get(url, function( data ) {
+                                  data = data.replace(\(href=)(".+")\g,"$1#");
+                                  ("#dvContent").html(data);
+                                });
                                 $("#btnLast").click(function(){
                                     loadIframe(lastreadingid);
                                 });
