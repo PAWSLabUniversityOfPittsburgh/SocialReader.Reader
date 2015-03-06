@@ -69,8 +69,10 @@
                                 lastreadingid = json.prev;
                                 nextreadingid = json.next;
                                 $.get(url, function( data ) {
-                                  data = data.replace(/(href=)([^>]+)/g,"$1#");
-                                  $("#dvContent").html(data);
+                                    console.info(data)
+                                    data = data.replace(/(href=)([^>]+)/g,"$1#");
+                                    console.info(data)
+                                    $("#dvContent").html(data);
                                 });
                                 $("#btnLast").click(function(){
                                     loadIframe(lastreadingid);
@@ -79,7 +81,37 @@
                                 $("#btnNext").click(function(){
                                     loadIframe(nextreadingid);
                                 });
-     
+                                //annotator
+                                var content = $($(".ng-isolate-scope")[1]).annotator();
+                                content.annotator('addPlugin', 'Store', {
+                                    prefix: "http://columbus.exp.sis.pitt.edu/socialreader",
+                                    urls:{create:"/CreateAnnotation",search:"/GetAnnotations"},
+                                    annotationData: {
+                                        'uri': 'http://this/document/only',
+                                        "usr": + usr,
+                                        "grp": + grp,
+                                        "fileurl": + url,
+                                        "page": + page,
+                                        "readingid":readingid
+                                    },
+                                    loadFromSearch: {
+                                        'limit': 20,
+                                        'uri': 'http://this/document/only',
+                                        "usr": + usr,
+                                        "grp": + grp,
+                                        "fileurl": + url,
+                                        "page": + page,
+                                        "readingid":readingid
+                                    }
+                                });
+                                //annotation stat
+                                $("#dvStat").hide();
+                                $("#btnStat").click(
+                                    function(){
+                                        $("#dvStat").toggle(1000);
+                                    }
+                                );
+        
 
                             } else {
                                 console.log("ERROR: " + json.error);
@@ -87,29 +119,7 @@
                         }
                     });
                 }
-
-                var content = $($(".ng-isolate-scope")[1]).annotator();
-                content.annotator('addPlugin', 'Store', {
-                    prefix: "http://columbus.exp.sis.pitt.edu/socialreader",
-                    urls:{create:"/CreateAnnotation",search:"/GetAnnotations"},
-                    annotationData: {
-                        'uri': 'http://this/document/only',
-                        "usr": + usr,
-                        "grp": + grp,
-                        "fileurl": + url,
-                        "page": + page,
-                        "readingid":readingid
-                    },
-                    loadFromSearch: {
-                        'limit': 20,
-                        'uri': 'http://this/document/only',
-                        "usr": + usr,
-                        "grp": + grp,
-                        "fileurl": + url,
-                        "page": + page,
-                        "readingid":readingid
-                    }
-                }); 
+ 
 
 
             }
