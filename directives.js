@@ -55,13 +55,7 @@
                 var url = null, page = 0;
                 var readingid = 'lewis-0077', nextreadingid = 'lewis-0076', lastreadingid = 'lewis-0078';
                 loadIframe(readingid);
-                $("#btnLast").click(function(){
-                    loadIframe(readingid)
-                });
 
-                $("#btnNext").click(function(){
-                    loadIframe(readingid)
-                });
 
                 function loadIframe(readingid) {
                     $.ajax({
@@ -75,6 +69,13 @@
                                 lastreadingid = json.prev;
                                 nextreadingid = json.next;
                                 $("#dvContent").load(url);
+                                $("#btnLast").click(function(){
+                                    loadIframe(lastreadingid);
+                                });
+
+                                $("#btnNext").click(function(){
+                                    loadIframe(nextreadingid);
+                                });
      
 
                             } else {
