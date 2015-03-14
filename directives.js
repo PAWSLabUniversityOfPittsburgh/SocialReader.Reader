@@ -44,43 +44,67 @@
             vm.updateItem = updateItem;
             vm.editItem = editItem;
             
+            vm.srRSetToolbarVis = false;
+            vm.srRSetBtnCommentsVis = true;
+            vm.srRSetBtnTextCommentVis= true;
+            vm.srRSetBtnFloatSquareCommentVis = true;
+            vm.srRSetBtnCommentSummaryVis= false;
+            vm.srRSetBtnNextVis = true;
+            vm.srRSetBtnPrevVis = true;
+
             // Functions
-            function initialize(scope) {
 
-                scope.componentPath = componentPath;
+            function srRShowComments()
+            {
+                srRBuild(vm.readingid,true);
+            }
 
-                vm.manager.respondToEditsWith(vm.editItem);
-                var base_url = 'http://columbus.exp.sis.pitt.edu/socialreader/';
-                var usr = 10, grp = 6, sid = 1;
-                var url = null, page = 0;
-                var readingid = 'lewis-0077', nextreadingid = 'lewis-0076', lastreadingid = 'lewis-0078';
-                loadIframe(readingid);
+            function srRHideComments()
+            {
+                srRBuild(vm.readingid,false);
+            }
 
+            function srRShowCommentSummary(){
+                vm.srRSetBtnCommentSummaryVis = true;
+                $("#dvStat").show();
+            }
 
-                function loadIframe(readingid) {
-                    $.ajax({
-                        url: base_url + 'GetReadingInfo',
-                        type: 'post',
-                        dataType: 'jsonp',
-                        data: { readingid: readingid },
-                        success: function (json) {
-                            if (!json.error) {
-                                url = json.urls[0];
-                                lastreadingid = json.prev;
-                                nextreadingid = json.next;
-                                $.get(url, function( data ) {
-                                    console.info(data)
-                                    data = data.replace(/(href=)([^>]+)/g,"$1#");
-                                    console.info(data)
-                                    $("#dvContent").html(data);
-                                });
-                                $("#btnLast").click(function(){
-                                    loadIframe(lastreadingid);
-                                });
+            function srRHideCommentSummary(){
+                vm.srRSetBtnCommentSummaryVis = false;
+                $("#dvStat").hide();  
+            }
 
-                                $("#btnNext").click(function(){
-                                    loadIframe(nextreadingid);
-                                });
+            function srRGoToNextReading(){
+                srRBuild(vm.nextreadingid,true);
+            }
+
+            function srRGoToPrevReading(){
+                srRBuild(vm.lastreadingid,true);
+            }
+
+            function srRBuild(creadingid,commentsvisible) {
+                $.ajax({
+                    url: vm.base_url + 'GetReadingInfo',
+                    type: 'post',
+                    dataType: 'jsonp',
+                    data: { readingid: creadingid },
+                    success: function (json) {
+                        if (!json.error) {
+                            vm.url = json.urls[0];
+                            vm.lastreadingid = json.prev;
+                            vm.nextreadingid = json.next;
+                            $.get(vm.url, function( data ) {
+                                data = data.replace(/(href=)([^>]+)/g,"$1#");
+                                $("#dvContent").html(data);
+                            });
+                            $("#btnLast").click(function(){
+                                srRGoToPrevReading();
+                            });
+
+                            $("#btnNext").click(function(){
+                                srRGoToNextReading();
+                            });
+                            if(commentsvisible){
                                 //annotator
                                 var content = $($(".ng-isolate-scope")[1]).annotator();
                                 content.annotator('addPlugin', 'Store', {
@@ -88,39 +112,60 @@
                                     urls:{create:"/CreateAnnotation",search:"/GetAnnotations"},
                                     annotationData: {
                                         'uri': 'http://this/document/only',
-                                        "usr": + usr,
-                                        "grp": + grp,
-                                        "fileurl": + url,
-                                        "page": + page,
-                                        "readingid":readingid
+                                        "usr": + vm.usr,
+                                        "grp": + vm.grp,
+                                        "fileurl": + vm.url,
+                                        "page": + vm.page,
+                                        "readingid":vm.readingid
                                     },
                                     loadFromSearch: {
                                         'limit': 20,
                                         'uri': 'http://this/document/only',
-                                        "usr": + usr,
-                                        "grp": + grp,
-                                        "fileurl": + url,
-                                        "page": + page,
-                                        "readingid":readingid
+                                        "usr": + vm.usr,
+                                        "grp": + vm.grp,
+                                        "fileurl": + vm.url,
+                                        "page": + vm.page,
+                                        "readingid":vm.readingid
                                     }
                                 });
-                                //annotation stat
-                                $("#dvStat").hide();
-                                $("#btnStat").click(
-                                    function(){
-                                        $("#dvStat").toggle(1000);
-                                    }
-                                );
-        
-
-                            } else {
-                                console.log("ERROR: " + json.error);
                             }
-                        }
-                    });
-                }
- 
+                            
+                            //annotation stat
+                            $("#dvStat").hide();
+                            $("#btnStat").click(
+                                function(){
+                                    if(vm.srRSetBtnCommentSummaryVis){
+                                        srRHideCommentSummary();
+                                    }else{
+                                        srRShowCommentSummary();
+                                    }
+                                }
+                            );
+    
 
+                        } else {
+                            console.log("ERROR: " + json.error);
+                        }
+                    }
+                });
+            }
+
+            function initialize(scope) {
+
+                scope.componentPath = componentPath;
+
+                vm.manager.respondToEditsWith(vm.editItem);
+                vm.readingid = 'lewis-0077';
+                vm.nextreadingid = 'lewis-0076';
+                vm.lastreadingid = 'lewis-0078';
+                vm.base_url = 'http://columbus.exp.sis.pitt.edu/socialreader/';
+                vm.usr = 10; 
+                vm.grp = 6; 
+                vm.sid = 1;
+                vm.url = null; 
+                vm.page = 0;
+
+                srRBuild(vm.readingid,true);
 
             }
             
