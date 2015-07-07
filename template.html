@@ -1,15 +1,15 @@
+<div class="">
 
-<div>
-<div>
-	<input type="button" value="last page" id="btnLast" />
-	<input type="button" value="next page" id="btnNext" />
-	<input type="button" value="summary" id="btnStat" />
-	<input type="button" value="questions" id="btnQuestion" />
-</div>
-<div id="dvQuestion" style="display:none">
-....
-</div>
- <div id="dvContent">
-Loading....
-</div>
+    <div class="sidebar col-md-4">
+        <div key="'main'" reading-circle></div>
+        <div id="compare">
+            <button onClick="$('#comparison').toggle()">Compare 1</button>
+            <button onClick="$('#comparison').toggle()">Compare 2</button>
+        </div>
+        <div key="'comparison'" id="comparison" reading-circle></div>
+    </div>
+    <div class="main col-md-8">
+        <div reader></div>
+    </div>
+  
 </div>
