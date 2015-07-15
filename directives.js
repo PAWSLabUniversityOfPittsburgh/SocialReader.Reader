@@ -32,7 +32,7 @@
             readerController.initialize(scope);
         }
         
-        function controller($scope) {
+        function controller($scope, $compile) {
             var vm = this;
             
             // Properties
@@ -45,6 +45,7 @@
             vm.editItem = editItem;
             
             vm.srRSetToolbarVis = false;
+            vm.srRSetCommentVis = true;
             vm.srRSetBtnCommentsVis = true;
             vm.srRSetBtnTextCommentVis= true;
             vm.srRSetBtnFloatSquareCommentVis = true;
@@ -76,12 +77,12 @@
 
             function srRShowCommentSummary(){
                 vm.srRSetBtnCommentSummaryVis = true;
-                $("#dvStat").show();
+                $("#dvStat").slideDown(1000);
             }
 
             function srRHideCommentSummary(){
                 vm.srRSetBtnCommentSummaryVis = false;
-                $("#dvStat").hide();  
+                $("#dvStat").slideUp(1000);
             }
 
             function srRGoToNextReading(){
@@ -95,9 +96,11 @@
             $scope.srRBuild = function (creadingid,commentsvisible,urltarget) {
                 if(urltarget != undefined){
                     $.get(urltarget, function( data ) {
+                        //$(".panel").html('<div id="dvContent" class="content"></div>');
                         var baseurl = urltarget.substr(0,urltarget.lastIndexOf("/"));
-                        data = data.replace(/(href=)'([^>]+)'/g,"href = '#' onclick = 'srRBuild(null,"+commentsvisible+",'"+baseurl+"/$2')'");
+                        data = data.replace(/(href=)'([^>]+)'/g,"href = '#' ng-click = srRBuild(null,"+commentsvisible+",'"+baseurl+"/$2')");
                         $("#dvContent").html(data);
+                        $compile($("#dvContent"))($scope);
                     });
                 }else{
                     $.ajax({
@@ -112,8 +115,11 @@
                                 vm.nextreadingid = json.next;
                                 $.get(vm.url, function( data ) {
                                     var baseurl = vm.url.substr(0,vm.url.lastIndexOf("/"));
-                                    data = data.replace(/(href=)'([^>]+)'/g,"href = '#' onclick=srRBuild(null,null)");
+                                    data = data.replace(/(href=)'([^>]+)'/g,"href = '#' ng-click = srRBuild(null,"+commentsvisible+",'"+baseurl+"/$2')");
+                                    //$(".panel").html('<div id="dvContent" class="content"></div>');
                                     $("#dvContent").html(data);
+                                    $("#tdTitle").text(json.title);
+                                    $compile($("#dvContent"))($scope);
                                 });
 
                                 //question
@@ -134,8 +140,9 @@
                                     srRGoToNextReading();
                                 });
                                 if(commentsvisible){
+                                    console.info("Para:" + commentsvisible)
                                     //annotator
-                                    var content = $(".main")//$($(".ng-isolate-scope")[1]);
+                                    var content = $(".panel");//$($(".ng-isolate-scope")[1]);
                                     content.annotator('addPlugin', 'Store', {
                                         prefix: "http://columbus.exp.sis.pitt.edu/socialreader",
                                         urls:{create:"/CreateAnnotation",search:"/GetAnnotations"},
@@ -157,6 +164,9 @@
                                             "readingid":vm.readingid
                                         }
                                     });
+                                    $(".annotator-adder-temp").attr("class","annotator-adder");
+                                }else{
+                                    $(".annotator-adder").attr("class","annotator-adder-temp");
                                 }
 
                                 //annotation stat
@@ -171,6 +181,27 @@
                                     }
                                 );
 
+                                $("#dvQuestion").hide();
+                                $("#btnQuestion").click(
+                                    function(){
+                                        if(vm.srRSetBtnQuestionVis){
+                                            srRHideQuestion();
+                                        }else{
+                                            srRShowQuestion();
+                                        }
+                                    }
+                                );
+
+
+                                $("#btnComment").unbind("click");
+                                $("#btnComment").click(
+                                    function(){
+                                        vm.srRSetCommentVis = !vm.srRSetCommentVis;
+                                        $scope.srRBuild(creadingid,vm.srRSetCommentVis,urltarget);
+                                        console.info("VM:" + vm.srRSetCommentVis);
+                                    }
+                                );
+
 
                             } else {
                                 console.log("ERROR: " + json.error);
@@ -178,8 +209,6 @@
                         }
                     });
                 }
-
-
 
             }
 
@@ -199,6 +228,9 @@
                 vm.page = 0;
 
                 $scope.srRBuild(vm.readingid,true);
+
+                /*CSS update*/
+                $(".window").width($(".banner").width()-10);
 
             }
             

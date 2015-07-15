@@ -1,15 +1,61 @@
-<div class="">
+<style type="text/css">
+	.panel{
+		/*border: solid 1px;*/
+		background-color: darkgrey;
+        padding: 0px 30px 10px 30px;
+	}
 
-    <div class="sidebar col-md-4">
-        <div key="'main'" reading-circle></div>
-        <div id="compare">
-            <button onClick="$('#comparison').toggle()">Compare 1</button>
-            <button onClick="$('#comparison').toggle()">Compare 2</button>
-        </div>
-        <div key="'comparison'" id="comparison" reading-circle></div>
+	.banner{
+		background-color: black;
+		/*padding-left: 40px;
+		padding-right: 40px;*/
+	}
+
+	.banner img{
+		cursor: hand;
+	}
+
+	.title{
+		width: 100%;
+		color: white;
+		text-align: center;
+	}
+
+	.window{
+        position: absolute;
+		background-color: lightgray;
+        z-index: 10;
+		color: white;
+		text-align: center;
+        opacity: 0.8;
+	}
+
+	.content{
+		background-color: white;
+        padding: 10px 30px 10px 30px;
+	}
+
+</style>
+
+
+<div class="banner">
+	<table><tr>
+		<td><a href="#"><img src="img/left.png" id="btnLast"/></a></td>
+		<td class="title" id="tdTitle">Title</td>
+		<td><a href="#"><img src="img/comment.png" id="btnComment" /></a></td>
+		<td><a href="#"><img src="img/summary.png" id="btnStat" /></a></td>
+		<td><a href="#"><img src="img/right.png" id="btnNext" /></a></td>
+	</tr></table>
+
+	<!--input type="button" value="last page" id="btnLast" />
+	<input type="button" value="next page" id="btnNext" />
+	<input type="button" value="summary" id="btnStat" />
+	<input type="button" value="questions" id="btnQuestion" /-->
+    <div id="dvStat" class="window">
+        <div>Summary<br />Summary<br />Summary<br /></div>
     </div>
-    <div class="main col-md-8">
-        <div reader></div>
-    </div>
-  
+</div>
+
+<div class="panel">
+    <div id="dvContent" class="content"></div>
 </div>
